@@ -33,10 +33,12 @@ a) hosted in Cloud9:
 search:         https://arch-search-proxy-mikhailbro.c9users.io/v1/get-search?search=KOWIN&scoringProfile=arch-score&$count=true
 autocompletion: https://arch-search-proxy-mikhailbro.c9users.io/v1/get-autocomplete?search=KOW
 ==============================================================
+
 b) hosted in public Azure:
 search:          https://arch-search-proxy.azurewebsites.net/v1/get-search?search=KOWIN&scoringProfile=arch-score&$count=true
 autocompletion:  https://arch-search-proxy.azurewebsites.net/v1/get-autocomplete?search=KOW
 ==============================================================
+
 c) hosted in managed Azure:
 search:          https://arch-search-proxy.azurepaas-internal.dev.axa-ch.intraxa/v1/get-search?search=KOWIN&scoringProfile=arch-score&$count=true
 autocompletion:  https://arch-search-proxy.azurepaas-internal.dev.axa-ch.intraxa/v1/get-autocomplete?search=KOW
