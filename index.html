@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>IT Architecture Search</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8; width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="./pics/favicon-32x32.png" />
+    
+    <link rel="stylesheet" href="./scripts/bootstrap/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="./scripts/angucomplete/angucomplete-alt.css" type="text/css"/>
+    <link rel="stylesheet" href="./scripts/angular-bootstrap-toggle/dist/angular-bootstrap-toggle.min.css" type="text/css" />
+    <link rel="stylesheet" href="./scripts/nz-toggle/dist/nz-toggle.min.css" type="text/css" />
+    
+    <script src="./scripts/jquery-1.9.0.js"></script>
+	<script src="./scripts/angular.js"></script>
+    <script src="./scripts/angular-ui/ui-bootstrap.min.js"></script>
+    <script src="./scripts/angucomplete/angucomplete-alt.js"></script>
+	<script src="./scripts/App.js"></script>
+    <script src="./scripts/AzureSearchController.js"></script>
+	<script src="./scripts/angular-bootstrap-toggle/dist/angular-bootstrap-toggle.min.js"></script>
+	<script src="./scripts/nz-toggle/dist/nz-toggle.min.js"></script>
+</head>
+
+<body >
+	<table style="width:94%">
+		<tr>
+    		<td width="15px">
+    		</td>
+    		<td width="115px">
+    			<a href="http://one.axa.com/wps/myportal/switzerland/?urile=wcm%3apath%3a/switzerland_de/home/my-workspace/axa-ch/it/intern/stab-architecture/it-sub-intern-stab-architecture" target= "_blank">
+    				<img src="./pics/architektur-logo.jpg" alt="AXA CH IT Architecture" title="AXA CH IT Architecture" height="65" width="65">
+    			</a>
+    		</td>
+    		<td align="center">
+    			<img src="./pics/axa-winterthur-logo.jpg" alt="AXA CH Logo" height="35">
+    			<p><strong><h4 class="display-2">IT Architecture Search</h4></strong></p>
+    		</td>
+		</tr>
+	</table>
+	<br/>
+	<div ng-app="app">
+        <div ng-controller="SearchController as search">
+        		<div class="container-fluid">
+                <form name="search.searchForm" class="form-horizontal" ng-submit="search.submit()">
+                	<div class="form-group">
+                		<label for="inputSearch" class="col-sm-2 control-label" title="For Wildcard complete with '*'. Search multiple words with 'AND'. For 'OR' use the pipeline character '|' between the words."></label>
+                		<div class="padded-row">
+        					<div class="large-padded-row">
+		                		<div angucomplete-alt
+		          					style="width:67%"
+		          					title="For Wildcard complete with '*'. Search multiple words with 'AND'. For 'OR' use the pipeline character '|' between the words."
+		          					input-changed="search.changed"
+		                			id="ex1" 
+		                			search-value="search.test"
+		                			placeholder="for Wildcard complete with *" 
+		                			pause="200"
+		                			minlength="3"
+			                		selected-object="search.keywords" 
+			                		remote-url="https://xxx/indexes/arch-search/docs/suggest?suggesterName=sg&$orderby=name&api-version=2016-09-01&search="
+			                		remote-url-data-field="value" 
+			                		title-field="suggestname" 
+			                		input-class="form-control" 
+			                		match-class="highlight" 
+			                		class="col-sm-10" >
+		                		</div>
+		                		<input name="submit" class="submit btn btn-success" id="submit" style="display: inline-block; padding-right:40px; padding-left:40px;" type="submit" value="Search">
+		                	</div>
+            			</div>
+                	</div>
+					
+					
+					<table style="width:94%;">
+						<tr>
+					    	<th width="8%" style="display:none;">empty column</th>
+					        <th width="52%" align="center" style="display:none;">Artefact types</th>
+					        <th width="40%" align="center" style="display:none;">Lifecycle</th>
+					      </tr>
+      					<tr>
+					    	<td width="8%">
+				    		</td>
+    						<td width="52%" vertical-align="top" style="text-align: center;">
+					    		<label for="inputcheckbox" title="Select architecture artefact types" style="vertical-align:40%;">Artefact types<br/></label>
+					    		&nbsp;&nbsp;&nbsp;
+								<nz-toggle id="tristate" tri-toggle ng-model="search.allTypes" off-toggle="search.submit(this)" on-toggle="search.submit(this)" color-true="'#337ab7'" color-false="'#e1e2de'" color-null="'#5bc0de'" width="60" height="20" 
+		            								tip-false="'all OFF'" tip-null="'&nbsp;&hArr;&nbsp;'" tip-true="'all ON'" val-true="'true'" val-false="'false'" val-null="'0'" class="square">
+		            			</nz-toggle>
+					    	</td>
+					    	<td width="40%" style="text-align: center;">
+					    		<label for="inputcheckbox" title="Select lifecycle states" style="vertical-align:40%;">Lifecycle</label>
+					    	</td>
+					    </tr>
+					    <tr>
+					    	<td width="8%">
+				    		</td>
+				    		<td width="52%" style="text-align: center;">
+					    		<toggle id="toggle-application" ng-model="search.Application" ng-change="changed()" on="Application" off="Application" ng-click="search.submit()"></toggle>
+					    		<toggle id="toggle-approved-element" ng-model="search.ApprovedElement" ng-change="changed()" on="Appr. Element" off="Appr. Element" ng-click="search.submit()"></toggle>
+					    		<toggle id="toggle-domain" ng-model="search.Domain" ng-change="changed()" on=" Domain" off=" Domain" ng-click="search.submit()"></toggle>
+					    	</td>
+					    	
+					    	<td width="40%" style="text-align: center;">
+					    		<toggle id="toggle-planned" ng-model="search.Planned" ng-change="changed()" on="Planned" off="Planned" onstyle="btn-info" ng-click="search.submit()"></toggle>
+					    		<toggle id="toggle-active" ng-model="search.Active" ng-change="changed()" on="Active" off="Active" onstyle="btn-info" ng-click="search.submit()"></toggle>
+					    		<toggle id="toggle-retired" ng-model="search.Retired" ng-change="changed()" on="Retired" off="Retired" onstyle="btn-info" ng-click="search.submit()"></toggle>
+					    	</td>					    	
+					   </tr>
+					   <tr>
+					    	<td width="8%">
+				    		</td>
+				    		<td width="52%" style="text-align: center; valign=top">
+					    		<span style="vertical-align:70%;">&nbsp;</span>
+					    		<toggle id="toggle-event" ng-model="search.Event" ng-change="changed()" on="Event" off="Event" ng-click="search.submit()"></toggle>
+					    		<toggle id="toggle-terminology" ng-model="search.Terminology" ng-change="changed()" on="Terminology" off="Terminology" ng-click="search.submit()"></toggle>
+					    		<toggle id="toggle-is-interface" ng-model="search.IsInterface" ng-change="changed()" on="Is Interface" off="Is Interface" ng-click="search.submit()"></toggle>
+					    		<!-- <toggle id="toggle-projekt" ng-model="search.Projekt" ng-change="changed()" on="Projekt" off="Projekt" ng-click="search.submit()"></toggle> -->
+					    		<toggle id="toggle-solution-blueprint" ng-model="search.SolutionBlueprint" ng-change="changed()" on="Sol. Blueprint" off="Sol. Blueprint" ng-click="search.submit()"></toggle>
+					    	</td>
+					    	<td>
+					    	</td>
+					    </tr>
+					</table>
+                </form>
+                
+                
+                <!--   ***   ERGEBNISSE    ***  -->
+                <table style="width:94%">
+					<tr>
+			    		<td width="10px;">
+			    		</td>
+			    		<td align="left">
+			    			<div ng-show="search.showSearchResults">
+			                    <strong>
+			                    	<br/> 
+		                    		<h4>Search results: {{search.count}}</h4>
+		                    		<h5 ng-show="search.moreThanOnePage">{{search.pageCounter}}</h5>
+		                    	</strong>
+			                </div>
+			            </td>
+			            <td width="6%">
+			    		</td>
+			    		<td align="right">
+			                <div class="form-group" ng-show="search.showNextPage">
+			                	<form name="search.searchForm" class="form-horizontal" ng-submit="search.nextpage()">
+				              		<div>
+										<input name="nextpage-top" class="submit btn btn-sm btn-success" id="nextpage-top" style="display: inline-block;" type="submit" value="Next page">
+									</div>
+			              		</form>
+			            	</div>
+			    		</td>
+			    		<td width="4%">
+			    		</td>
+					</tr>
+				</table>
+				
+                <div ng-repeat="result in search.results">
+                	<div class="h4">
+	                	<div ng-switch="result.artefactType">
+						 	<!-- 1: Terminology -->
+						 	<div ng-switch-when="Terminology">
+						 		<hr/> 
+						 		<div ng-if="result.lifecycle == 'retired'" style="color: grey;">
+						 			<a class="btn btn-primary btn-lg active" target="_new" href="{{result.url}}" title="AXA Terminology link">{{result.name}}</a> 
+						 			{{result.artefactType}} from Sharepoint, lifecycle: <em><font style="color: red;">{{result.lifecycle}}</font></em>.
+						 			<span ng-repeat="artefactSubtype in result.artefactSubtypes">
+						 				&nbsp; {{artefactSubtype}}
+						 			</span>
+						 			<span ng-repeat="artefactSpecificValue in result.artefactSpecificValues">
+						 				&nbsp; {{artefactSpecificValue}}
+						 			</span>
+						 		</div>
+						 		<div ng-if="result.lifecycle != 'retired'">
+						 			<a class="btn btn-primary btn-lg active" target="_new" href="{{result.url}}" title="AXA Terminology link">{{result.name}}</a> 
+						 			{{result.artefactType}} from Sharepoint, lifecycle: {{result.lifecycle}}.
+						 			<span ng-repeat="artefactSubtype in result.artefactSubtypes">
+						 				&nbsp; {{artefactSubtype}}
+						 			</span>
+						 			<span ng-repeat="artefactSpecificValue in result.artefactSpecificValues">
+						 				&nbsp; {{artefactSpecificValue}}
+						 			</span> 
+						 		</div>
+						 	</div>
+						 	<!-- 2: ApprovedElement -->
+						 	<div ng-switch-when="ApprovedElement">
+						 		<hr/> 
+						 		<div ng-if="result.lifecycle == 'retired'" style="color: grey;">
+						 			<a class="btn btn-primary btn-lg active" target="_new" href="{{result.url}}" title="CentraSite link">{{result.name}}</a> 
+						 			{{result.artefactType}} from Innovator, lifecycle: <em><font style="color: red;">{{result.lifecycle}}</font></em>.
+						 			<span ng-repeat="artefactSubtype in result.artefactSubtypes">
+						 				&nbsp; {{artefactSubtype}}
+						 			</span>
+						 			<span ng-repeat="artefactSpecificValue in result.artefactSpecificValues">
+						 				&nbsp; {{artefactSpecificValue}}
+						 			</span>
+						 		</div>
+						 		<div ng-if="result.lifecycle != 'retired'">
+						 			<a class="btn btn-primary btn-lg active" target="_new" href="{{result.url}}" title="CentraSite link">{{result.name}}</a> 
+						 			{{result.artefactType}} from Innovator, lifecycle: {{result.lifecycle}}.
+						 			<span ng-repeat="artefactSubtype in result.artefactSubtypes">
+						 				&nbsp; {{artefactSubtype}}
+						 			</span>
+						 			<span ng-repeat="artefactSpecificValue in result.artefactSpecificValues">
+						 				&nbsp; {{artefactSpecificValue}}
+						 			</span>
+						 		</div>
+						 	</div>
+						 	<!-- 3: Domain -->
+						 	<div ng-switch-when="Domain">
+						 		<hr/> 
+						 		<div ng-if="result.lifecycle == 'retired'" style="color: grey;">
+						 			<a class="btn btn-primary btn-lg active" target="_new" href="{{result.url}}" title="MEGA link">{{result.name}}</a> 
+						 			{{result.artefactType}} from MEGA, lifecycle: <em><font style="color: red;">{{result.lifecycle}}</font></em>.
+						 			<span ng-repeat="artefactSubtype in result.artefactSubtypes">
+						 				&nbsp; {{artefactSubtype}}
+						 			</span>
+						 			<span ng-repeat="artefactSpecificValue in result.artefactSpecificValues">
+						 				&nbsp; {{artefactSpecificValue}}
+						 			</span>
+						 		</div>
+						 		<div ng-if="result.lifecycle != 'retired'">
+						 			<a class="btn btn-primary btn-lg active" target="_new" href="{{result.url}}" title="MEGA link">{{result.name}}</a> 
+						 			{{result.artefactType}} from MEGA, lifecycle: {{result.lifecycle}}.
+						 			<span ng-repeat="artefactSubtype in result.artefactSubtypes">
+						 				&nbsp; {{artefactSubtype}}
+						 			</span>
+						 			<span ng-repeat="artefactSpecificValue in result.artefactSpecificValues">
+						 				&nbsp; {{artefactSpecificValue}}
+						 			</span> 
+						 		</div>
+						 	</div>
+						 	<!-- 4: Event -->
+						 	<div ng-switch-when="Event">
+						 		<hr/> 
+						 		<div ng-if="result.lifecycle == 'retired'" style="color: grey;">
+						 			<a class="btn btn-primary btn-lg active" target="_new" href="{{result.url}}" title="CentraSite link">{{result.name}}</a> 
+						 			{{result.artefactType}} from Sharepoint, lifecycle: <em><font style="color: red;">{{result.lifecycle}}</font></em>.
+						 			<span ng-repeat="artefactSubtype in result.artefactSubtypes">
+						 				&nbsp; {{artefactSubtype}}
+						 			</span>
+						 			<span ng-repeat="artefactSpecificValue in result.artefactSpecificValues">
+						 				&nbsp; {{artefactSpecificValue}}
+						 			</span>
+						 		</div>
+						 		<div ng-if="result.lifecycle != 'retired'">
+						 			<a class="btn btn-primary btn-lg active" target="_new" href="{{result.url}}" title="CentraSite link">{{result.name}}</a> 
+						 			{{result.artefactType}} from Sharepoint, lifecycle: {{result.lifecycle}}.
+						 			<span ng-repeat="artefactSubtype in result.artefactSubtypes">
+						 				&nbsp; {{artefactSubtype}}
+						 			</span>
+						 			<span ng-repeat="artefactSpecificValue in result.artefactSpecificValues">
+						 				&nbsp; {{artefactSpecificValue}}
+						 			</span>
+						 		</div>
+						 	</div>
+						 	<!-- 5: IsInterface -->
+						 	<div ng-switch-when="IsInterface">
+						 		<hr/> 
+						 		<div ng-if="result.lifecycle == 'retired'" style="color: grey;">
+						 			<a class="btn btn-primary btn-lg active" target="_new" href="{{result.url}}" title="CentraSite link">{{result.name}}</a> 
+						 			{{result.artefactType}} from CentraSite, lifecycle: <em><font style="color: red;">{{result.lifecycle}}</font></em>.
+						 			<span ng-repeat="artefactSubtype in result.artefactSubtypes">
+						 				&nbsp; {{artefactSubtype}}
+						 			</span>
+						 			<span ng-repeat="artefactSpecificValue in result.artefactSpecificValues">
+						 				&nbsp; {{artefactSpecificValue}}
+						 			</span>
+						 		</div>
+						 		<div ng-if="result.lifecycle != 'retired'">
+						 			<a class="btn btn-primary btn-lg active" target="_new" href="{{result.url}}" title="CentraSite link">{{result.name}}</a> 
+						 			{{result.artefactType}} from CentraSite, lifecycle: {{result.lifecycle}}.
+						 			<span ng-repeat="artefactSubtype in result.artefactSubtypes">
+						 				&nbsp; {{artefactSubtype}}
+						 			</span>
+						 			<span ng-repeat="artefactSpecificValue in result.artefactSpecificValues">
+						 				&nbsp; {{artefactSpecificValue}}
+						 			</span>
+						 		</div>
+						 	</div>
+						 	<!-- 6: Project -->
+						 	<div ng-switch-when="Project">
+						 		<hr/> 
+						 		<div ng-if="result.lifecycle == 'retired'" style="color: grey;">
+						 			<p class="btn btn-primary btn-lg disabled"> {{result.name}} </p> 
+						 			{{result.artefactType}} from ProSight, lifecycle: <em><font style="color: red;">{{result.lifecycle}}</font></em>.
+						 			<span ng-repeat="artefactSubtype in result.artefactSubtypes">
+						 				&nbsp; {{artefactSubtype}}
+						 			</span>
+						 			<span ng-repeat="artefactSpecificValue in result.artefactSpecificValues">
+						 				&nbsp; {{artefactSpecificValue}}
+						 			</span>
+						 		</div>
+						 		<div ng-if="result.lifecycle != 'retired'">
+						 			<p class="btn btn-primary btn-lg disabled"> {{result.name}} </p> 
+						 			{{result.artefactType}} from ProSight, lifecycle: {{result.lifecycle}}.
+						 			<span ng-repeat="artefactSubtype in result.artefactSubtypes">
+						 				&nbsp; {{artefactSubtype}}
+						 			</span>
+						 			<span ng-repeat="artefactSpecificValue in result.artefactSpecificValues">
+						 				&nbsp; {{artefactSpecificValue}}
+						 			</span>
+						 		</div>
+						 	</div>
+						 	<!-- 7: Application -->
+						 	<div ng-switch-when="Application">
+						 		<hr/> 
+						 		<div ng-if="result.lifecycle == 'retired'" style="color: grey;">
+						 			<a class="btn btn-primary btn-lg active" target="_new" href="{{result.url}}" title="MEGA link">{{result.name}}</a> 
+						 			{{result.artefactType}} from MEGA, lifecycle: <em><font style="color: red;">{{result.lifecycle}}</font></em>.
+						 			<span ng-repeat="artefactSubtype in result.artefactSubtypes">
+						 				&nbsp; {{artefactSubtype}}
+						 			</span>
+						 			<span ng-repeat="artefactSpecificValue in result.artefactSpecificValues">
+						 				&nbsp; {{artefactSpecificValue}}
+						 			</span>
+						 		</div>
+						 		<div ng-if="result.lifecycle != 'retired'">
+						 			<a class="btn btn-primary btn-lg active" target="_new" href="{{result.url}}" title="MEGA link">{{result.name}}</a> 
+						 			{{result.artefactType}} from MEGA, lifecycle: {{result.lifecycle}}.
+						 			<span ng-repeat="artefactSubtype in result.artefactSubtypes">
+						 				&nbsp; {{artefactSubtype}}
+						 			</span>
+						 			<span ng-repeat="artefactSpecificValue in result.artefactSpecificValues">
+						 				&nbsp; {{artefactSpecificValue}}
+						 			</span>
+						 		</div>
+						 	</div>
+						 	<!-- 8: SolutionBlueprint -->
+						 	<div ng-switch-when="SolutionBlueprint">
+						 		<hr/> 
+						 		<div ng-if="result.lifecycle == 'retired'" style="color: grey;">
+						 			<a class="btn btn-primary btn-lg active" target="_new" href="{{result.url}}" title="Innovator link">{{result.name}}</a> 
+						 			{{result.artefactType}} from Innovator, lifecycle: <em><font style="color: red;">{{result.lifecycle}}</font></em>.
+						 			<span ng-repeat="artefactSubtype in result.artefactSubtypes">
+						 				&nbsp; {{artefactSubtype}}
+						 			</span>
+						 			<span ng-repeat="artefactSpecificValue in result.artefactSpecificValues">
+						 				&nbsp; {{artefactSpecificValue}}
+						 			</span>
+						 		</div>
+						 		<div ng-if="result.lifecycle != 'retired'">
+						 			<a class="btn btn-primary btn-lg active" target="_new" href="{{result.url}}" title="Innovator link">{{result.name}}</a> 
+						 			{{result.artefactType}} from Innovator, lifecycle: {{result.lifecycle}}.
+						 			<span ng-repeat="artefactSubtype in result.artefactSubtypes">
+						 				&nbsp; {{artefactSubtype}}
+						 			</span>
+						 			<span ng-repeat="artefactSpecificValue in result.artefactSpecificValues">
+						 				&nbsp; {{artefactSpecificValue}}
+						 			</span>
+						 		</div>
+						 	</div>
+						 	<!-- others:  -->
+						 	<div ng-switch-default>
+						 		<hr/> 
+						 		<p class="btn btn-primary btn-lg disabled"> {{result.name}} </p> 
+						 		{{result.artefactType}}, lifecycle: {{result.lifecycle}}.
+					 			<span ng-repeat="artefactSubtype in result.artefactSubtypes">
+					 				&nbsp; {{artefactSubtype}}
+					 			</span>
+					 			<span ng-repeat="artefactSpecificValue in result.artefactSpecificValues">
+					 				&nbsp; {{artefactSpecificValue}}
+					 			</span>
+						 	</div>
+						 </div>
+					 </div>
+                    <span ng-if="result.descriptionEn != null">
+	                    <div ng-switch="result.lifecycle">
+							<div ng-switch-when="retired" class="h6" ng-bind="result.descriptionEn" style="color: grey;"></div>
+						  	<div ng-switch-default class="h6" ng-bind="result.descriptionEn"></div>
+						</div>
+					</span>
+					<div ng-switch="result.lifecycle">
+						<div ng-switch-when="retired" class="h6" ng-bind="result.description" style="color: grey;"></div>
+					  	<div ng-switch-default class="h6" ng-bind="result.description"></div>
+					</div>
+				</div>
+                <br/>
+                <hr/>
+                <br/>
+                <div class="form-group" ng-show="search.showNextPage">
+              		<form name="search.searchForm" class="form-horizontal" ng-submit="search.nextpage()">
+              			<div class="col-sm-offset-2 col-sm-10" align="right">
+							<input name="nextpage-bottom" class="submit btn btn-lg btn-success" id="nextpage-bottom" style="display: inline-block;" type="submit" value="Next page"> 
+              			</div>
+              		</form>
+            	</div>
+            </div>
+        </div>
+    </div>
+</body>
+<footer>
+  <h6 align="center">
+  	&copy; AXA CH IT Architecture, 
+  	<a href="mailto:WGR-BOX ASE">ase.ch@axa-winterthur.ch</a>
+  </h6>
+</footer>
+</html>

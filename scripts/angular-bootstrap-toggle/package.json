@@ -1,0 +1,59 @@
+{
+  "name": "angular-bootstrap-toggle",
+  "version": "0.1.2",
+  "author": {
+    "name": "Tony Wang",
+    "email": "ziscloud@gmail.com"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.8.7",
+    "gulp-concat": "^2.3.4",
+    "gulp-jshint": "^1.8.4",
+    "gulp-less": "^3.0.3",
+    "gulp-minify-css": "^1.2.1",
+    "gulp-plumber": "^1.0.1",
+    "gulp-rename": "^1.2.0",
+    "gulp-uglify": "^1.4.1",
+    "jasmine-core": "^2.3.4",
+    "jshint-stylish": "^2.0.1",
+    "karma": "^0.13.10",
+    "karma-chrome-launcher": "^0.2.1",
+    "karma-jasmine": "^0.3.6",
+    "karma-jquery": "^0.1.0",
+    "karma-phantomjs2-launcher": "~0.3.2",
+    "karma-spec-reporter": "^0.0.20",
+    "run-sequence": "^1.0.2"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "gitHead": "0456785b23cf53b576f4a28263bfaadb9d83f67a",
+  "description": "[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ziscloud/angular-bootstrap-toggle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://secure.travis-ci.org/ziscloud/angular-bootstrap-t",
+  "_id": "angular-bootstrap-toggle@0.1.2",
+  "scripts": {},
+  "_shasum": "93767f3056d5330ab6c6ced3ac4e645b741a4d6b",
+  "_from": "angular-bootstrap-toggle@latest",
+  "_npmVersion": "3.10.3",
+  "_nodeVersion": "6.3.1",
+  "_npmUser": {
+    "name": "ziscloud",
+    "email": "ziscloud@gmail.com"
+  },
+  "dist": {
+    "shasum": "93767f3056d5330ab6c6ced3ac4e645b741a4d6b",
+    "tarball": "https://registry.npmjs.org/angular-bootstrap-toggle/-/angular-bootstrap-toggle-0.1.2.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "ziscloud",
+      "email": "ziscloud@gmail.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/angular-bootstrap-toggle-0.1.2.tgz_1470276499121_0.012938726460561156"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/angular-bootstrap-toggle/-/angular-bootstrap-toggle-0.1.2.tgz"
+}
