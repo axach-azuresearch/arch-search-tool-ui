@@ -1,20 +1,20 @@
 ### _SPA link in browser_
-* from Cloud9:
+* Cloud9
 ```
 <cloud9ApiHost>
 ```
-* from managed Azure (DEV):
+* Managed Azure Cloud
 ```
 <proxyApiHost>
 ```
 
 ### _Proxy API call examples_
-* hosted in Cloud9:
+* Cloud9
 ```
 search:         <cloud9ApiHost>/v1/get-search?search=KOWIN&scoringProfile=arch-score&$count=true
 autocompletion: <cloud9ApiHost>/v1/get-autocomplete?search=KOW
 ```
-* hosted in managed Azure:
+* Managed Azure Cloud
 ```
 search:          <proxyApiHost>/v1/get-search?search=KOWIN&scoringProfile=arch-score&$count=true
 autocompletion:  <proxyApiHost>/v1/get-autocomplete?search=KOW
