@@ -4,15 +4,19 @@ angular.module('app').controller("SearchController", function ($scope, $http) {
 	var vm = this;
     vm.keywords = "";
     
-	vm.apiVersion = "2016-09-01";
-	
-	// proxy call:
-	//vm.proxyHostName = "https://arch-search-proxy.azurepaas-internal.dev.axa-ch.intraxa";
-	//vm.apiHostname = vm.proxyHostName + "/v1/get-search?search=";
+    vm.apiVersion = config.azureApiVersion;
+    vm.apiKey = config.apiKey;
+    vm.azureHostName = config.azureApiHost;
+    vm.proxyHostName = config.proxyApiHost;
+    vm.cloud9HostName = config.azureCloud9Host;
     
-    // direct call: 
-    vm.azureHostName = "https://xxx";
-    vm.apiHostname =  vm.azureHostName + "/indexes/arch-search/docs" + "?api-version=" + vm.apiVersion + '&$count=true' + '&searchMode=all' + "&search=";
+	// proxy call:
+	//vm.apiHostname = vm.proxyHostName + "/v1/get-search?search=";
+	//vm.apiSuggesterUri = vm.proxyHostName + "/v1/get-autocomplete?search=";"
+    
+    // direct azure call: 
+	vm.apiHostname =  vm.azureHostName + "/indexes/arch-search/docs" + "?api-version=" + vm.apiVersion + '&$count=true' + '&searchMode=all' + "&search=";
+    vm.apiSuggesterUri = vm.azureHostName + "/indexes/arch-search/docs/suggest?suggesterName=sg&$orderby=name&api-version=" + vm.apiVersion + "&search=";
 	
 	vm.url = vm.apiHostname;
     
@@ -24,7 +28,7 @@ angular.module('app').controller("SearchController", function ($scope, $http) {
     vm.dataObject = {};
     vm.count = 0;
     
-    vm.PAGINATION_STRING = "&$skip=";
+    vm.paginationString = "&$skip=";
     vm.moreThanOnePage = false;
     vm.nextPage = "";
     vm.showNextPage = false;
@@ -64,7 +68,7 @@ angular.module('app').controller("SearchController", function ($scope, $http) {
     
     var config = {
         headers: {
-            'api-key': 'xxx',
+            'api-key': vm.apiKey,
             'Content-Type': 'application/json; charset=utf-8',
         }
     };
@@ -213,7 +217,7 @@ angular.module('app').controller("SearchController", function ($scope, $http) {
 	        	if (!isEmpty(vm.nextPage)) {
 	        		vm.showNextPage = true;
 	        		vm.moreThanOnePage = true;
-	        		vm.lastPageItem = vm.nextPage.substr(vm.nextPage.indexOf(vm.PAGINATION_STRING) + vm.PAGINATION_STRING.length);
+	        		vm.lastPageItem = vm.nextPage.substr(vm.nextPage.indexOf(vm.paginationString) + vm.paginationString.length);
     				vm.pageCounter = (vm.lastPageItem - 49) + " - " + vm.lastPageItem;
     				console.log("next page link exists:" + vm.nextPage);
 	        	
@@ -237,13 +241,13 @@ angular.module('app').controller("SearchController", function ($scope, $http) {
 
 
 	vm.nextpage = function (item, event) {
-    	if (vm.nextPage.indexOf(vm.PAGINATION_STRING) > 0) {
+    	if (vm.nextPage.indexOf(vm.paginationString) > 0) {
     		
-    		if (vm.url.indexOf(vm.PAGINATION_STRING) > 0) {
-    			vm.url = vm.url.substr(0, vm.url.indexOf(vm.PAGINATION_STRING));
+    		if (vm.url.indexOf(vm.paginationString) > 0) {
+    			vm.url = vm.url.substr(0, vm.url.indexOf(vm.paginationString));
     		}
     		
-    		vm.url = vm.url + vm.nextPage.substr(vm.nextPage.indexOf(vm.PAGINATION_STRING));
+    		vm.url = vm.url + vm.nextPage.substr(vm.nextPage.indexOf(vm.paginationString));
     	
 	    	var responsePromise = $http.get(vm.url, config, {});
 		    
@@ -260,7 +264,7 @@ angular.module('app').controller("SearchController", function ($scope, $http) {
 	        	
 	        	if (!isEmpty(vm.nextPage)) {
 	        		vm.showNextPage = true;
-	        		vm.lastPageItem = vm.nextPage.substr(vm.nextPage.indexOf(vm.PAGINATION_STRING) + vm.PAGINATION_STRING.length);
+	        		vm.lastPageItem = vm.nextPage.substr(vm.nextPage.indexOf(vm.paginationString) + vm.paginationString.length);
     				vm.pageCounter = (vm.lastPageItem - 49) + " - " + vm.lastPageItem;
 	        		console.log(vm.nextPage);
 	        	
