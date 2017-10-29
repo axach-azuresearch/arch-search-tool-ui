@@ -4,23 +4,26 @@ angular.module('app').controller("SearchController", function ($scope, $http) {
 	var vm = this;
     vm.keywords = "";
     
-    vm.apiVersion = config.azureApiVersion;
-    vm.apiKey = config.apiKey;
-    vm.azureHostName = config.azureApiHost;
-    vm.proxyHostName = config.proxyApiHost;
-    vm.cloud9HostName = config.azureCloud9Host;
+    vm.azureApiVersion = config.azureApiVersion;
+    vm.azureApiKey = config.azureApiKey;
+    vm.azureApiHost = config.azureApiHost;
+    vm.proxyApiHost = config.proxyApiHost;
+    vm.azureCloud9Host = config.azureCloud9Host;
     
-	// proxy call:
-	//vm.apiHostname = vm.proxyHostName + "/v1/get-search?search=";
-	//vm.apiSuggesterUri = vm.proxyHostName + "/v1/get-autocomplete?search=";"
+    // proxy call:
+	//vm.apiHostname = vm.proxyApiHost + "/v1/get-search?search=";
     
     // direct azure call: 
-	vm.apiHostname =  vm.azureHostName + "/indexes/arch-search/docs" + "?api-version=" + vm.apiVersion + '&$count=true' + '&searchMode=all' + "&search=";
-    vm.apiSuggesterUri = vm.azureHostName + "/indexes/arch-search/docs/suggest?suggesterName=sg&$orderby=name&api-version=" + vm.apiVersion + "&search=";
+	vm.apiHostname =  vm.azureApiHost + "/indexes/arch-search/docs" + "?api-version=" + vm.azureApiVersion + '&$count=true' + '&searchMode=all' + "&search=";
 	
 	vm.url = vm.apiHostname;
     
-    vm.preparedURL = "";
+    // FOR index.html:
+    //vm.apiSuggesterUri = vm.proxyApiHost + "/v1/get-autocomplete?search=";
+    vm.apiSuggesterUri = vm.azureApiHost + "/indexes/arch-search/docs/suggest?suggesterName=sg&$orderby=name&api-version=" + vm.azureApiVersion + "&search=";
+    
+	
+	vm.preparedURL = "";
     vm.showSearchResults = false;
     vm.title = "Azure Search Example";
     vm.type = "All";
@@ -68,7 +71,7 @@ angular.module('app').controller("SearchController", function ($scope, $http) {
     
     var config = {
         headers: {
-            'api-key': vm.apiKey,
+            'api-key': vm.azureApiKey,
             'Content-Type': 'application/json; charset=utf-8',
         }
     };
