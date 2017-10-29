@@ -440,7 +440,7 @@
       function getRemoteResults(str) {
     	var params = {
     			headers: {
-    	            'api-key': 'xxx',
+    	            'api-key': config.azureApiKey,
     	            'Content-Type': 'application/json; charset=utf-8',
     	        }		
     	},
